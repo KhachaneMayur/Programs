@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def employee():
-    return render_template('employee.html')
+    return render_template('employee2.html')
 
 @app.route('/result',methods = ['POST','GET'])
 def result():
