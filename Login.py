@@ -34,15 +34,6 @@ def login():
         return redirect(url_for('login_page'))
 
 
-@app.route('/info/<rollno>', methods=['GET'])
-def info(rollno):
-    con = sql.connect('student.db')
-    con.row_factory = sql.Row
-    cur = con.cursor()
-    cur.execute('''SELECT * FROM student WHERE RollNo= ?''', (rollno,))
-    rows = cur.fetchall()
-    return render_template('details.html', rows=rows)
-
 @app.route('/<details>', defaults={'rollno' : None})
 @app.route('/<details>/<rollno>')
 #@app.route('/details/<rollno>')
