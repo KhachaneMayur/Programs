@@ -27,9 +27,9 @@ def login():
         session['user'] = request.form['username']
         session['pass'] = request.form['password']
         return request.form.get('details')
-        #if request.form.get('url',None):
+        #if request.form.get('url'):
         #    return request.form['url']
-        #return redirect(url_for('details'))
+        #return redirect(url_for('details',rollno=request.form['url']))
     else:
         return redirect(url_for('login_page'))
 
