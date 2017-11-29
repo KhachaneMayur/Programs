@@ -1,5 +1,5 @@
 from flask import Flask, redirect, render_template, request, session, url_for, json
-import sqlite3 as sql
+import sqlite3 as sql,  urlparse
 
 app = Flask(__name__)
 app.secret_key = 'random string'
@@ -13,7 +13,9 @@ def auth(url):
 
 @app.route('/login_page')
 def login_page():
-    return render_template('login.html')
+    url = request.url
+    parsed = urlparse.urlparse(url)
+    return render_template('login.html',next=parsed.query)
 
 
 @app.route('/login', methods=['POST','GET'])
@@ -27,8 +29,6 @@ def login():
         session['user'] = request.form['username']
         session['pass'] = request.form['password']
         return request.form.get('details')
-        #if request.form.get('url'):
-        #    return request.form['url']
         #return redirect(url_for('details',rollno=request.form['url']))
     else:
         return redirect(url_for('login_page'))
@@ -36,7 +36,6 @@ def login():
 
 @app.route('/<details>', defaults={'rollno' : None})
 @app.route('/<details>/<rollno>')
-#@app.route('/details/<rollno>')
 def details(details, rollno):
     resp = auth(url=request.url)
     if resp is True:
